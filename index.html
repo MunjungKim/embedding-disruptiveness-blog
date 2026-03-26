@@ -399,76 +399,6 @@
 </div>
 
 <div class="content">
-    <p class="fade-in">And the J/&psi; is far from unique. Across the history of physics, many of the most transformative breakthroughs were made simultaneously by independent teams:</p>
-</div>
-
-<!-- ============ SIMULTANEOUS DISCOVERIES TABLE ============ -->
-<div class="comparison fade-in">
-    <table>
-        <tr><th>Paper</th><th>Year</th><th style="text-align:center">D quantile</th><th style="text-align:center">&Delta; quantile</th><th>Simultaneous Discovery Pair</th></tr>
-        <tr>
-            <td style="font-weight:400">Kohn &amp; Sham &mdash; <em>Self-consistent equations including exchange and correlation effects</em></td>
-            <td>1965</td><td style="text-align:center">0.001</td><td style="text-align:center"><strong>0.959</strong></td>
-            <td style="color:var(--color-muted)">Hohenberg &amp; Kohn (1964)</td>
-        </tr>
-        <tr>
-            <td style="font-weight:400">Higgs &mdash; <em>Broken symmetries and the masses of gauge bosons</em></td>
-            <td>1964</td><td style="text-align:center">0.001</td><td style="text-align:center"><strong>0.959</strong></td>
-            <td style="color:var(--color-muted)">Englert &amp; Brout (1964); Guralnik, Hagen &amp; Kibble (1964)</td>
-        </tr>
-        <tr>
-            <td style="font-weight:400">Augustin et al. &mdash; <em>Discovery of a narrow resonance in e+e- annihilation</em></td>
-            <td>1974</td><td style="text-align:center">0.000</td><td style="text-align:center"><strong>0.952</strong></td>
-            <td style="color:var(--color-muted)">Abrams et al. (1974)</td>
-        </tr>
-        <tr>
-            <td style="font-weight:400">Weinberg &mdash; <em>A model of leptons</em></td>
-            <td>1967</td><td style="text-align:center">0.013</td><td style="text-align:center"><strong>0.956</strong></td>
-            <td style="color:var(--color-muted)">Glashow (1961)</td>
-        </tr>
-        <tr>
-            <td style="font-weight:400">Gross &amp; Wilczek &mdash; <em>Ultraviolet behavior of non-abelian gauge theories</em></td>
-            <td>1973</td><td style="text-align:center">0.004</td><td style="text-align:center"><strong>0.946</strong></td>
-            <td style="color:var(--color-muted)">Politzer (1973)</td>
-        </tr>
-        <tr>
-            <td style="font-weight:400">Politzer &mdash; <em>Reliable perturbative results for strong interactions?</em></td>
-            <td>1973</td><td style="text-align:center">0.002</td><td style="text-align:center"><strong>0.942</strong></td>
-            <td style="color:var(--color-muted)">Gross &amp; Wilczek (1973)</td>
-        </tr>
-        <tr>
-            <td style="font-weight:400">Baltimore &mdash; <em>Viral RNA-dependent DNA polymerase</em></td>
-            <td>1970</td><td style="text-align:center">0.000</td><td style="text-align:center"><strong>0.947</strong></td>
-            <td style="color:var(--color-muted)">Temin &amp; Mizutani (1970)</td>
-        </tr>
-        <tr>
-            <td style="font-weight:400">Temin &amp; Mizutani &mdash; <em>RNA-dependent DNA polymerase in virions of Rous sarcoma virus</em></td>
-            <td>1970</td><td style="text-align:center">0.000</td><td style="text-align:center"><strong>0.945</strong></td>
-            <td style="color:var(--color-muted)">Baltimore (1970)</td>
-        </tr>
-        <tr>
-            <td style="font-weight:400">Bloom et al. &mdash; <em>High-energy inelastic e-p scattering at 6&deg; and 10&deg;</em></td>
-            <td>1969</td><td style="text-align:center">0.013</td><td style="text-align:center"><strong>0.951</strong></td>
-            <td style="color:var(--color-muted)">Breidenbach et al. (1969)</td>
-        </tr>
-        <tr>
-            <td style="font-weight:400">Breidenbach et al. &mdash; <em>Observed behavior of highly inelastic electron-proton scattering</em></td>
-            <td>1969</td><td style="text-align:center">0.005</td><td style="text-align:center"><strong>0.942</strong></td>
-            <td style="color:var(--color-muted)">Bloom et al. (1969)</td>
-        </tr>
-        <tr>
-            <td style="font-weight:400">Abrams et al. &mdash; <em>Discovery of a second narrow resonance in e+e- annihilation</em></td>
-            <td>1974</td><td style="text-align:center">0.001</td><td style="text-align:center"><strong>0.936</strong></td>
-            <td style="color:var(--color-muted)">Augustin et al. (1974)</td>
-        </tr>
-    </table>
-</div>
-
-<div class="content">
-    <p class="fade-in" style="font-size: 0.92rem; color: var(--color-muted);">Papers with the largest discrepancy between disruption index (D) and embedding disruptiveness (&Delta;) quantiles. All of these turn out to be simultaneous discoveries &mdash; independent teams arriving at equivalent breakthroughs. D quantiles near zero reflect mutual citations between co-discoverers; &Delta; quantiles near one reflect the global impact these papers had on their fields.</p>
-
-    <p class="fade-in">A striking pattern: these are some of the most important papers in 20th-century physics and biology &mdash; the Higgs mechanism, asymptotic freedom, density functional theory, the electroweak model, reverse transcriptase. All of them were discovered simultaneously by independent teams, and all of them rank in the top 5&ndash;6% by EDM.</p>
-
     <p class="fade-in">These observations motivate an approach that leverages the full network structure &mdash; including indirect paths and higher-order relationships &mdash; to provide a complementary perspective on scientific disruptiveness.</p>
 </div>
 
@@ -602,6 +532,80 @@
         PCA of future vectors shows that co-discovery pairs are nearest neighbors &mdash; they share the same impact on the field, despite being independent works.
     </figcaption>
 </figure>
+
+<div class="content">
+    <h3 class="fade-in">An unexpected pattern</h3>
+
+    <p class="fade-in">We examined the papers with the largest discrepancies between D and &Delta; &mdash; papers where the disruption index and EDM disagree the most. An intriguing pattern emerged: <strong>they were all simultaneous discoveries.</strong></p>
+</div>
+
+<!-- ============ SIMULTANEOUS DISCOVERIES TABLE ============ -->
+<div class="comparison fade-in">
+    <table>
+        <tr><th>Paper</th><th>Year</th><th style="text-align:center">D quantile</th><th style="text-align:center">&Delta; quantile</th><th>Simultaneous Discovery Pair</th></tr>
+        <tr>
+            <td style="font-weight:400">Kohn &amp; Sham &mdash; <em>Self-consistent equations including exchange and correlation effects</em></td>
+            <td>1965</td><td style="text-align:center">0.001</td><td style="text-align:center"><strong>0.959</strong></td>
+            <td style="color:var(--color-muted)">Hohenberg &amp; Kohn (1964)</td>
+        </tr>
+        <tr>
+            <td style="font-weight:400">Higgs &mdash; <em>Broken symmetries and the masses of gauge bosons</em></td>
+            <td>1964</td><td style="text-align:center">0.001</td><td style="text-align:center"><strong>0.959</strong></td>
+            <td style="color:var(--color-muted)">Englert &amp; Brout (1964); Guralnik, Hagen &amp; Kibble (1964)</td>
+        </tr>
+        <tr>
+            <td style="font-weight:400">Augustin et al. &mdash; <em>Discovery of a narrow resonance in e+e- annihilation</em></td>
+            <td>1974</td><td style="text-align:center">0.000</td><td style="text-align:center"><strong>0.952</strong></td>
+            <td style="color:var(--color-muted)">Abrams et al. (1974)</td>
+        </tr>
+        <tr>
+            <td style="font-weight:400">Weinberg &mdash; <em>A model of leptons</em></td>
+            <td>1967</td><td style="text-align:center">0.013</td><td style="text-align:center"><strong>0.956</strong></td>
+            <td style="color:var(--color-muted)">Glashow (1961)</td>
+        </tr>
+        <tr>
+            <td style="font-weight:400">Gross &amp; Wilczek &mdash; <em>Ultraviolet behavior of non-abelian gauge theories</em></td>
+            <td>1973</td><td style="text-align:center">0.004</td><td style="text-align:center"><strong>0.946</strong></td>
+            <td style="color:var(--color-muted)">Politzer (1973)</td>
+        </tr>
+        <tr>
+            <td style="font-weight:400">Politzer &mdash; <em>Reliable perturbative results for strong interactions?</em></td>
+            <td>1973</td><td style="text-align:center">0.002</td><td style="text-align:center"><strong>0.942</strong></td>
+            <td style="color:var(--color-muted)">Gross &amp; Wilczek (1973)</td>
+        </tr>
+        <tr>
+            <td style="font-weight:400">Baltimore &mdash; <em>Viral RNA-dependent DNA polymerase</em></td>
+            <td>1970</td><td style="text-align:center">0.000</td><td style="text-align:center"><strong>0.947</strong></td>
+            <td style="color:var(--color-muted)">Temin &amp; Mizutani (1970)</td>
+        </tr>
+        <tr>
+            <td style="font-weight:400">Temin &amp; Mizutani &mdash; <em>RNA-dependent DNA polymerase in virions of Rous sarcoma virus</em></td>
+            <td>1970</td><td style="text-align:center">0.000</td><td style="text-align:center"><strong>0.945</strong></td>
+            <td style="color:var(--color-muted)">Baltimore (1970)</td>
+        </tr>
+        <tr>
+            <td style="font-weight:400">Bloom et al. &mdash; <em>High-energy inelastic e-p scattering at 6&deg; and 10&deg;</em></td>
+            <td>1969</td><td style="text-align:center">0.013</td><td style="text-align:center"><strong>0.951</strong></td>
+            <td style="color:var(--color-muted)">Breidenbach et al. (1969)</td>
+        </tr>
+        <tr>
+            <td style="font-weight:400">Breidenbach et al. &mdash; <em>Observed behavior of highly inelastic electron-proton scattering</em></td>
+            <td>1969</td><td style="text-align:center">0.005</td><td style="text-align:center"><strong>0.942</strong></td>
+            <td style="color:var(--color-muted)">Bloom et al. (1969)</td>
+        </tr>
+        <tr>
+            <td style="font-weight:400">Abrams et al. &mdash; <em>Discovery of a second narrow resonance in e+e- annihilation</em></td>
+            <td>1974</td><td style="text-align:center">0.001</td><td style="text-align:center"><strong>0.936</strong></td>
+            <td style="color:var(--color-muted)">Augustin et al. (1974)</td>
+        </tr>
+    </table>
+</div>
+
+<div class="content">
+    <p class="fade-in" style="font-size: 0.92rem; color: var(--color-muted);">Papers with the largest discrepancy between disruption index (D) and embedding disruptiveness (&Delta;) quantiles. D quantiles near zero reflect mutual citations between co-discoverers; &Delta; quantiles near one reflect the global impact these papers had on their fields.</p>
+
+    <p class="fade-in">The Higgs mechanism, asymptotic freedom, density functional theory, the electroweak model, reverse transcriptase, deep inelastic scattering &mdash; some of the most important discoveries of the 20th century. All made simultaneously by independent teams. All ranking in the top 5&ndash;6% by EDM.</p>
+</div>
 
 <!-- ============ PART 4: THE TOOL ============ -->
 <div class="divider fade-in">&bull; &bull; &bull;</div>
