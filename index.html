@@ -385,45 +385,33 @@
 
     <p class="fade-in">The <strong>Disruption Index (D)</strong>, introduced by Funk &amp; Owen-Smith and popularized by Wu, Wang &amp; Evans, has become the most widely adopted measure of scientific disruptiveness, used across thousands of studies in scientometrics, management science, and science policy.</p>
 
-    <p class="fade-in">But despite its success, the disruption index has fundamental limitations.</p>
+    <p class="fade-in">We build on this foundation. Our embedding-based approach is designed to complement existing measures by additionally capturing indirect citation paths and a phenomenon that local measures are not designed to address: <strong>simultaneous discoveries</strong>.</p>
 </div>
 
 <div class="content">
-    <h3 class="fade-in">A concrete example: the J/&psi; meson</h3>
+    <h3 class="fade-in">Motivating example: the J/&psi; meson</h3>
 
     <p class="fade-in">In November 1974, two independent teams made the same breakthrough. At Brookhaven National Lab, Samuel Ting's group found a new subatomic particle. Three thousand miles away at SLAC, Burton Richter's team found the exact same particle. They named it the <strong>J/&psi; meson</strong>. Both teams shared the 1976 Nobel Prize.</p>
 
-    <p class="fade-in">These papers were, by any reasonable definition, <em>disruptive</em>. They fundamentally changed particle physics.</p>
+    <p class="fade-in">Merton's theory of multiple discoveries suggests that such simultaneous, independent scientific advances are the norm rather than the exception &mdash; as exemplified by Newton and Leibniz's formulations of calculus, or Darwin and Wallace's parallel development of evolutionary theory.</p>
 
-    <p class="fade-in">But the disruption index scored them as <strong>consolidating</strong>. Ting's paper got D&nbsp;=&nbsp;-0.11. Richter's got D&nbsp;=&nbsp;-0.64.</p>
-</div>
-
-<div class="big-quote fade-in">
-    Why? Because they cited each other. And the disruption index interprets mutual citations as a sign that nothing new happened.
-</div>
-
-<div class="content">
-    <p class="fade-in">This isn't a one-off failure. It's a structural limitation &mdash; one of several.</p>
+    <p class="fade-in">When two teams independently make the same breakthrough, they naturally cite each other. This mutual citation pattern causes local measures like the disruption index to score both papers as consolidating (D&nbsp;=&nbsp;-0.11 and D&nbsp;=&nbsp;-0.64 for the J/&psi; papers), even though they represent a paradigm shift. This is not a flaw of the disruption index per se &mdash; it's a consequence of measuring disruption from local topology alone.</p>
 </div>
 
 <!-- ============ FIGURE 1 ============ -->
 <figure class="figure fade-in">
-    <img src="Figure1_disruptive_illustration.png" alt="Limitations of the Disruption Index">
+    <img src="Figure1_disruptive_illustration.png" alt="Unique features of the embedding approach">
     <figcaption>
-        <strong>Four fundamental problems with the disruption index.</strong>
-        (A) High sensitivity &mdash; a single missing citation flips D from -1 to +1.
-        (B) High degeneracy &mdash; structurally different networks produce identical scores.
-        (C) Blindness to non-immediate neighbors.
-        (D) Blindness to simultaneous discoveries &mdash; mutual citations between co-discoverers penalize both.
+        <strong>Motivating our approach.</strong>
+        (A) The disruption index captures local citation topology around a focal paper.
+        (B&ndash;C) Different network structures can yield similar local statistics, motivating a global perspective.
+        (D) Simultaneous discoveries &mdash; where independent co-discoverers cite each other &mdash; present a unique challenge for local measures.
+        (E) Indirect citation paths carry information that local counts do not capture.
     </figcaption>
 </figure>
 
 <div class="content">
-    <p class="fade-in">The disruption index only looks at a paper's <em>immediate</em> neighbors. It reduces a rich citation network to three counts: how many papers cite you but not your references, how many cite both, and how many cite only your references.</p>
-
-    <p class="fade-in">The result is a metric that's discrete (it clusters at 0, 0.5, and 1), unstable (one citation can flip the score), and blind to the deeper structure of how ideas propagate through the network.</p>
-
-    <p class="fade-in">These challenges raise an important question: can we reliably assess the transformative nature of scientific work despite such limitations?</p>
+    <p class="fade-in">These observations motivate an approach that goes beyond local citation counts &mdash; one that leverages the full network structure, including indirect paths and higher-order relationships, to provide a complementary perspective on scientific disruptiveness.</p>
 </div>
 
 <!-- ============ PART 2: THE SOLUTION ============ -->
@@ -524,25 +512,24 @@
 <div class="comparison fade-in">
     <table>
         <tr><th></th><th>Disruption Index</th><th>EDM</th></tr>
-        <tr><td>Distribution</td><td class="bad">Discrete, clusters at 0, 0.5, 1</td><td class="good">Smooth, continuous</td></tr>
-        <tr><td>Stability</td><td class="bad">One citation can flip the score</td><td class="good">Robust to perturbations</td></tr>
-        <tr><td>Scope</td><td class="bad">Immediate neighbors only</td><td class="good">Global network structure</td></tr>
-        <tr><td>Simultaneous discoveries</td><td class="bad">Penalizes mutual citations</td><td class="good">Identifies both correctly</td></tr>
-        <tr><td>APS Milestone papers</td><td class="bad">Not significant</td><td class="good">OR = 1.23, p &lt; 0.001</td></tr>
-        <tr><td>Nobel Prize papers</td><td class="bad">Not significant</td><td class="good">OR = 1.34, p &lt; 0.001</td></tr>
+        <tr><td>Distribution</td><td>Discrete, clusters at 0, 0.5, 1</td><td>Smooth, continuous</td></tr>
+        <tr><td>Scope</td><td>Local (immediate neighbors)</td><td>Global (full network structure)</td></tr>
+        <tr><td>Simultaneous discoveries</td><td>Not designed to capture</td><td>Captured via shared future vectors</td></tr>
+        <tr><td>APS Milestone papers</td><td>OR not significant</td><td class="good">OR = 1.23, p &lt; 0.001</td></tr>
+        <tr><td>Nobel Prize papers</td><td>OR not significant</td><td class="good">OR = 1.34, p &lt; 0.001</td></tr>
     </table>
 </div>
 
 <div class="content">
-    <h3 class="fade-in">And the J/&psi; meson?</h3>
-    <p class="fade-in">Remember those two simultaneously-discovered papers that the disruption index scored as consolidating?</p>
+    <h3 class="fade-in">Revisiting the J/&psi; meson</h3>
+    <p class="fade-in">Because EDM captures global network structure rather than local citation counts alone, it provides a complementary view of the J/&psi; co-discovery:</p>
 </div>
 
 <div class="highlight-box fade-in">
     <div class="label">J/&psi; Meson Discovery (1974)</div>
-    <strong>Disruption Index:</strong> D = -0.11 and D = -0.64 (both "consolidating")<br>
-    <strong>EDM:</strong> &Delta; = 0.99 and &Delta; = 0.97 (both "highly disruptive")<br><br>
-    EDM correctly identifies both co-discoverers as disruptive.
+    <strong>Disruption Index:</strong> D = -0.11 and D = -0.64<br>
+    <strong>EDM:</strong> &Delta; = 0.99 and &Delta; = 0.97<br><br>
+    The local measure reflects mutual citations between co-discoverers. The embedding-based measure captures the broader impact: both papers fundamentally redirected the field.
 </div>
 
 <div class="content">
