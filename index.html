@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Measuring Disruption — embedding-disruptiveness</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --color-bg: #fafaf7;
+            --color-text: #1a1a1a;
+            --color-muted: #6b6b6b;
+            --color-accent: #c23616;
+            --color-accent2: #0652DD;
+            --color-highlight: #fff3cd;
+            --color-code-bg: #f0efeb;
+            --color-border: #e0ddd5;
+            --color-card: #ffffff;
+            --max-width: 680px;
+            --wide-width: 900px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.75;
+            font-size: 19px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Hero --- */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .hero-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.15;
+            max-width: 800px;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--color-muted);
+            max-width: 560px;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .hero .authors {
+            margin-top: 2rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: var(--color-muted);
+        }
+
+        .hero .authors a {
+            color: var(--color-text);
+            text-decoration: none;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .hero .links {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .hero .links a {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.8rem;
+            padding: 0.5rem 1.2rem;
+            border: 1.5px solid var(--color-text);
+            border-radius: 100px;
+            color: var(--color-text);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .hero .links a:hover {
+            background: var(--color-text);
+            color: var(--color-bg);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--color-muted);
+            letter-spacing: 0.1em;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(4px); }
+        }
+
+        /* --- Content --- */
+        .content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        .content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .content h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 5rem 0 1.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .content h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 3rem 0 1rem;
+        }
+
+        /* --- Dividers --- */
+        .divider {
+            max-width: var(--max-width);
+            margin: 4rem auto;
+            padding: 0 2rem;
+            text-align: center;
+            color: var(--color-border);
+            font-size: 1.5rem;
+            letter-spacing: 0.5em;
+        }
+
+        /* --- Big quote / callout --- */
+        .big-quote {
+            max-width: var(--max-width);
+            margin: 3rem auto;
+            padding: 0 2rem;
+            font-size: 1.5rem;
+            font-weight: 300;
+            line-height: 1.5;
+            color: var(--color-accent);
+            border-left: 3px solid var(--color-accent);
+            padding-left: 1.5rem;
+        }
+
+        /* --- Figure --- */
+        .figure {
+            max-width: var(--wide-width);
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .figure img {
+            width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+        }
+
+        .figure figcaption {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--color-muted);
+            margin-top: 0.8rem;
+            line-height: 1.55;
+        }
+
+        .figure figcaption strong {
+            color: var(--color-text);
+        }
+
+        /* --- Highlight box --- */
+        .highlight-box {
+            max-width: var(--max-width);
+            margin: 2.5rem auto;
+            padding: 1.5rem 2rem;
+            background: var(--color-highlight);
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .highlight-box .label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--color-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Code --- */
+        pre {
+            background: var(--color-code-bg);
+            border-radius: 6px;
+            padding: 1.2rem 1.5rem;
+            overflow-x: auto;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.82rem;
+            line-height: 1.65;
+            margin: 1.5rem 0 2rem;
+            border: 1px solid var(--color-border);
+        }
+
+        code {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.88em;
+            background: var(--color-code-bg);
+            padding: 0.15em 0.4em;
+            border-radius: 3px;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* --- Comparison table --- */
+        .comparison {
+            max-width: var(--wide-width);
+            margin: 2.5rem auto;
+            padding: 0 2rem;
+            overflow-x: auto;
+        }
+
+        .comparison table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+        }
+
+        .comparison th {
+            text-align: left;
+            padding: 0.8rem 1rem;
+            border-bottom: 2px solid var(--color-text);
+            font-weight: 600;
+        }
+
+        .comparison td {
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .comparison tr td:first-child {
+            font-weight: 500;
+            color: var(--color-muted);
+            width: 30%;
+        }
+
+        .bad { color: var(--color-accent); }
+        .good { color: #27ae60; }
+
+        /* --- Step cards --- */
+        .steps {
+            max-width: var(--max-width);
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .step {
+            display: flex;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .step-num {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--color-accent2);
+            min-width: 2.5rem;
+            line-height: 1.2;
+        }
+
+        .step-text {
+            flex: 1;
+        }
+
+        .step-text strong {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 4rem 2rem 3rem;
+            border-top: 1px solid var(--color-border);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            color: var(--color-muted);
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .footer a {
+            color: var(--color-text);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 600px) {
+            body { font-size: 17px; }
+            .hero h1 { font-size: 1.8rem; }
+            .big-quote { font-size: 1.2rem; }
+        }
+
+        /* --- Fade in on scroll --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+    <div class="hero-label">Research Paper + Open-Source Tool</div>
+    <h1>How do you measure whether a paper changed the world?</h1>
+    <p class="subtitle">The disruption index promised an answer. But it has a blind spot: it can't see when two people make the same breakthrough at the same time.</p>
+    <div class="authors">
+        <a href="#">Munjung Kim</a>, <a href="#">Sadamori Kojaku</a>, <a href="#">Yong-Yeol Ahn</a>
+    </div>
+    <div class="links">
+        <a href="https://arxiv.org/abs/2502.16845">Paper</a>
+        <a href="https://github.com/MunjungKim/embedding-disruptiveness">Code</a>
+        <a href="https://pypi.org/project/embedding-disruptiveness/">PyPI</a>
+    </div>
+    <div class="scroll-hint">scroll to begin</div>
+</div>
+
+<!-- ============ PART 1: THE PROBLEM ============ -->
+<div class="divider fade-in">&bull; &bull; &bull;</div>
+
+<div class="content">
+    <h2 class="fade-in">In November 1974, two teams made the same discovery.</h2>
+
+    <p class="fade-in">At Brookhaven National Lab, Samuel Ting's group found a new subatomic particle. Three thousand miles away at SLAC, Burton Richter's team found the exact same particle. They named it the <strong>J/&psi; meson</strong>. Both teams shared the 1976 Nobel Prize.</p>
+
+    <p class="fade-in">These papers were, by any reasonable definition, <em>disruptive</em>. They fundamentally changed particle physics.</p>
+
+    <p class="fade-in">But the <strong>Disruption Index</strong> &mdash; the standard metric used across thousands of studies &mdash; scored them as <strong>consolidating</strong>. Ting's paper got D&nbsp;=&nbsp;-0.11. Richter's got D&nbsp;=&nbsp;-0.64.</p>
+</div>
+
+<div class="big-quote fade-in">
+    Why? Because they cited each other. And the disruption index interprets mutual citations as a sign that nothing new happened.
+</div>
+
+<div class="content">
+    <p class="fade-in">This isn't a one-off failure. It's a structural flaw.</p>
+</div>
+
+<!-- ============ FIGURE 1 ============ -->
+<figure class="figure fade-in">
+    <img src="Figure1_disruptive_illustration.png" alt="Limitations of the Disruption Index">
+    <figcaption>
+        <strong>Four fundamental problems with the disruption index.</strong>
+        (A) High sensitivity &mdash; a single missing citation flips D from -1 to +1.
+        (B) High degeneracy &mdash; structurally different networks produce identical scores.
+        (C) Blindness to non-immediate neighbors.
+        (D) Blindness to simultaneous discoveries &mdash; mutual citations between co-discoverers penalize both.
+    </figcaption>
+</figure>
+
+<div class="content">
+    <p class="fade-in">The disruption index only looks at a paper's <em>immediate</em> neighbors. It reduces a rich citation network to three counts: how many papers cite you but not your references, how many cite both, and how many cite only your references.</p>
+
+    <p class="fade-in">The result is a metric that's discrete (it clusters at 0, 0.5, and 1), unstable (one citation can flip the score), and blind to the deeper structure of how ideas propagate.</p>
+
+    <p class="fade-in">We wanted something better.</p>
+</div>
+
+<!-- ============ PART 2: THE SOLUTION ============ -->
+<div class="divider fade-in">&bull; &bull; &bull;</div>
+
+<div class="content">
+    <h2 class="fade-in">What if you could <em>embed</em> disruptiveness?</h2>
+
+    <p class="fade-in">Instead of counting neighbors, we learn <strong>vector representations</strong> of each paper from the citation network. The key insight: every paper plays two roles.</p>
+</div>
+
+<div class="steps fade-in">
+    <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Walk the network.</strong> Random walks traverse the citation graph, capturing both local and long-range structure &mdash; something the disruption index fundamentally cannot do.</div>
+    </div>
+    <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>Learn two vectors per paper.</strong> A <em>future vector</em> captures how a paper influences its descendants. A <em>past vector</em> captures how it relates to its antecedents.</div>
+    </div>
+    <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Measure the gap.</strong> The cosine distance between a paper's future and past vectors is its <strong>Embedding Disruptiveness Measure (EDM)</strong>. Big gap = disruptive. Small gap = consolidating.</div>
+    </div>
+</div>
+
+<!-- ============ FIGURE 2 ============ -->
+<figure class="figure fade-in">
+    <img src="Figure2_Schematics_EDM.jpg" alt="Schematics of EDM">
+    <figcaption>
+        <strong>How EDM works.</strong>
+        (A) Random walks traverse the citation network.
+        (B) A directional skip-gram learns future and past vectors from walk sequences.
+        (C) In embedding space, disruptive papers have distant future and past vectors.
+        (D) A developing paper: future and past stay close &mdash; descendants follow the same references.
+        (E) A disruptive paper: future and past diverge &mdash; descendants break new ground.
+    </figcaption>
+</figure>
+
+<div class="content">
+    <p class="fade-in">The formula is simple:</p>
+    <pre class="fade-in"><code>EDM = 1 - cos(future_vector, past_vector)</code></pre>
+    <p class="fade-in">But what it captures is rich: the entire topology of how a paper sits between its intellectual ancestors and descendants.</p>
+</div>
+
+<!-- ============ PART 3: RESULTS ============ -->
+<div class="divider fade-in">&bull; &bull; &bull;</div>
+
+<div class="content">
+    <h2 class="fade-in">Does it actually work?</h2>
+    <p class="fade-in">We tested EDM on 54.9 million papers from Web of Science, 644K papers from APS, and 7.4 million patents. We validated against Nobel Prize papers, APS milestone papers, and government-funded patents.</p>
+</div>
+
+<!-- ============ FIGURE 3 ============ -->
+<figure class="figure fade-in">
+    <img src="Figure3_combined_figure3_and_supp1.png" alt="Empirical results">
+    <figcaption>
+        <strong>EDM outperforms the disruption index across the board.</strong>
+        (A) EDM produces a smooth distribution; D clusters at discrete values.
+        (B) Milestone and Nobel Prize papers rank higher under EDM.
+        (C) Individual paper rankings are more stable across randomized networks.
+        (D) Firth's logistic regression: EDM is statistically significant; D is not.
+        (E) Five landmark simultaneous discoveries &mdash; both co-discoverers score high on EDM, while D penalizes them.
+    </figcaption>
+</figure>
+
+<div class="comparison fade-in">
+    <table>
+        <tr><th></th><th>Disruption Index</th><th>EDM</th></tr>
+        <tr><td>Distribution</td><td class="bad">Discrete, clusters at 0, 0.5, 1</td><td class="good">Smooth, continuous</td></tr>
+        <tr><td>Stability</td><td class="bad">One citation can flip the score</td><td class="good">Robust to perturbations</td></tr>
+        <tr><td>Scope</td><td class="bad">Immediate neighbors only</td><td class="good">Global network structure</td></tr>
+        <tr><td>Simultaneous discoveries</td><td class="bad">Penalizes mutual citations</td><td class="good">Identifies both correctly</td></tr>
+        <tr><td>APS Milestone papers</td><td class="bad">Not significant</td><td class="good">OR = 1.23, p &lt; 0.001</td></tr>
+        <tr><td>Nobel Prize papers</td><td class="bad">Not significant</td><td class="good">OR = 1.34, p &lt; 0.001</td></tr>
+    </table>
+</div>
+
+<div class="content">
+    <h3 class="fade-in">And the J/&psi; meson?</h3>
+    <p class="fade-in">Remember those two simultaneously-discovered papers that the disruption index scored as consolidating?</p>
+</div>
+
+<div class="highlight-box fade-in">
+    <div class="label">J/&psi; Meson Discovery (1974)</div>
+    <strong>Disruption Index:</strong> D = -0.11 and D = -0.64 (both "consolidating")<br>
+    <strong>EDM:</strong> &Delta; = 0.99 and &Delta; = 0.97 (both "highly disruptive")<br><br>
+    EDM correctly identifies both co-discoverers as disruptive.
+</div>
+
+<div class="content">
+    <p class="fade-in">Using future vector proximity, we identified <strong>18,417 potential simultaneous discovery pairs</strong> across the entire Web of Science. Of 80 highly-cited pairs we examined, <strong>64 (80%) were confirmed as genuine simultaneous discoveries</strong>.</p>
+</div>
+
+<!-- ============ FIGURE 4 ============ -->
+<figure class="figure fade-in">
+    <img src="Figure_4_PCA_futurevectors.jpg" alt="PCA of future vectors">
+    <figcaption>
+        <strong>Simultaneous discoverers cluster in embedding space.</strong>
+        PCA of future vectors shows that co-discovery pairs are nearest neighbors &mdash; they share the same impact on the field, despite being independent works.
+    </figcaption>
+</figure>
+
+<!-- ============ PART 4: THE TOOL ============ -->
+<div class="divider fade-in">&bull; &bull; &bull;</div>
+
+<div class="content">
+    <h2 class="fade-in">Use it yourself: <code>embedding-disruptiveness</code></h2>
+
+    <p class="fade-in">Everything in this paper is packaged as an open-source Python library. Install it and compute EDM on your own citation network in minutes.</p>
+
+    <h3 class="fade-in">Install</h3>
+    <pre class="fade-in"><code>pip install embedding-disruptiveness</code></pre>
+
+    <h3 class="fade-in">Step 1: Compute the Disruption Index</h3>
+    <pre class="fade-in"><code>import embedding_disruptiveness as edm
+import scipy.sparse
+
+net = scipy.sparse.load_npz("citation_network.npz")
+
+# Automatically picks the best method for your network size
+di = edm.calc_disruption_index(net)
+
+# For very large networks (100M+ nodes), force the memory-efficient method
+di = edm.calc_disruption_index(net, method="iterative")
+
+# 2-step disruption index
+di_2step = edm.calc_multistep_disruption_index(net)</code></pre>
+
+    <h3 class="fade-in">Step 2: Train Embeddings & Compute EDM</h3>
+    <pre class="fade-in"><code>trainer = edm.EmbeddingTrainer(
+    net_input="citation_network.npz",
+    dim=100,              # embedding dimension
+    window_size=5,        # context window
+    device_in="0",        # GPU for past vectors
+    device_out="1",       # GPU for future vectors
+    q_value=1,            # node2vec parameter
+    epochs=1,
+    batch_size=1024,
+    save_dir="./output",
+)
+
+trainer.train()                          # train the skip-gram model
+trainer.save_embeddings()                # save in.npy, out.npy
+trainer.cal_embedding_disruptiveness()   # compute & save distance.npy</code></pre>
+
+    <h3 class="fade-in">Step 3: Convert Edge Lists (Optional)</h3>
+    <pre class="fade-in"><code>import numpy as np
+from embedding_disruptiveness.utils import to_adjacency_matrix
+
+# From edge list
+edges = np.array([[0, 1], [1, 2], [2, 3]])
+net = to_adjacency_matrix(edges, edgelist=True)
+
+# From weighted edge list
+weighted = np.array([[0, 1, 0.5], [1, 2, 1.0]])
+net = to_adjacency_matrix(weighted, edgelist=True)</code></pre>
+
+    <h3 class="fade-in">Output Files</h3>
+    <p class="fade-in">After training, your <code>save_dir</code> will contain:</p>
+    <pre class="fade-in"><code>output/
+  in.npy        # past vectors  (n_nodes x dim)
+  out.npy       # future vectors (n_nodes x dim)
+  distance.npy  # EDM scores     (n_nodes,)</code></pre>
+
+    <p class="fade-in">Each paper gets an EDM score between 0 (consolidating) and ~1 (disruptive). You can rank, filter, and analyze these scores however you like.</p>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="divider">&bull; &bull; &bull;</div>
+
+<div class="footer">
+    <strong>Measuring Disruption and Simultaneous Discoveries</strong><br>
+    Munjung Kim, Sadamori Kojaku, Yong-Yeol Ahn<br><br>
+    <a href="https://arxiv.org/abs/2502.16845">arXiv:2502.16845</a> &nbsp;&middot;&nbsp;
+    <a href="https://github.com/MunjungKim/embedding-disruptiveness">GitHub</a> &nbsp;&middot;&nbsp;
+    <a href="https://pypi.org/project/embedding-disruptiveness/">PyPI</a>
+</div>
+
+<!-- ============ SCROLL ANIMATION ============ -->
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
