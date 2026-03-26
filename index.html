@@ -381,7 +381,7 @@
 
     <p class="fade-in">Science is not a static body of knowledge but a dynamic system, continuously reshaped as new discoveries challenge established paradigms. Some contributions maintain an existing trajectory &mdash; <em>consolidating</em> work. Others redirect it toward unforeseen lines of inquiry &mdash; <em>disruptive</em> work.</p>
 
-    <p class="fade-in">Capturing this distinction empirically is challenging. Citation links are sparse and semantically noisy, influence propagates through multi-step pathways, and a single contribution may be distributed across multiple publications or discovered independently by separate teams.</p>
+    <p class="fade-in">To study this systematically &mdash; what drives disruptive work, how it reshapes a field, who produces it and under what conditions &mdash; we need a way to <em>measure</em> it. Without a reliable quantitative signal, questions about innovation remain impressionistic.</p>
 
     <p class="fade-in">The <strong>Disruption Index (D)</strong>, introduced by Funk &amp; Owen-Smith and popularized by Wu, Wang &amp; Evans, has become the most widely adopted measure of scientific disruptiveness, used across thousands of studies in scientometrics, management science, and science policy.</p>
 
@@ -399,7 +399,9 @@
 <div class="content">
     <p class="fade-in">The disruption index distills this into a single number: D&nbsp;=&nbsp;(n<sub>i</sub>&nbsp;&minus;&nbsp;n<sub>j</sub>)&nbsp;/&nbsp;(n<sub>i</sub>&nbsp;+&nbsp;n<sub>j</sub>&nbsp;+&nbsp;n<sub>k</sub>), where n<sub>i</sub> counts papers that cite only the focal work, n<sub>j</sub> counts those that cite both the focal work and its references, and n<sub>k</sub> counts those that skip the focal work entirely. A score near +1 means the paper broke the chain; a score near &minus;1 means it strengthened it.</p>
 
-    <p class="fade-in">We build on this foundation. Our embedding-based approach is designed to complement the disruption index by additionally capturing indirect citation paths and a phenomenon that local measures are not designed to address: <strong>simultaneous discoveries</strong>.</p>
+    <p class="fade-in">But scientific influence rarely stays local. A breakthrough can ripple through chains of citations that span decades and disciplines. A discovery can be fragmented across multiple papers, or made independently by separate teams who then cite each other. These higher-order structures &mdash; indirect paths, long-range dependencies, and distributed discoveries &mdash; are invisible to any measure that looks only at a paper's immediate neighbors.</p>
+
+    <p class="fade-in">We build on the disruption index's foundation with an embedding-based approach designed to complement it: one that captures influence propagating through the <em>full</em> network, and that naturally handles a phenomenon local measures are not designed to address &mdash; <strong>simultaneous discoveries</strong>.</p>
 </div>
 
 <div class="content">
@@ -543,19 +545,6 @@
 </div>
 
 <div class="content">
-    <p class="fade-in">Using future vector proximity, we identified <strong>18,417 potential simultaneous discovery pairs</strong> across the entire Web of Science. Of 80 highly-cited pairs we examined, <strong>64 (80%) were confirmed as genuine simultaneous discoveries</strong>.</p>
-</div>
-
-<!-- ============ FIGURE 4 ============ -->
-<figure class="figure fade-in">
-    <img src="Figure_4_PCA_futurevectors.jpg" alt="PCA of future vectors">
-    <figcaption>
-        <strong>Simultaneous discoverers cluster in embedding space.</strong>
-        PCA of future vectors shows that co-discovery pairs are nearest neighbors &mdash; they share the same impact on the field, despite being independent works.
-    </figcaption>
-</figure>
-
-<div class="content">
     <h3 class="fade-in">An unexpected pattern</h3>
 
     <p class="fade-in">We examined the papers with the largest discrepancies between D and &Delta; &mdash; papers where the disruption index and EDM disagree the most. An intriguing pattern emerged: <strong>they were all simultaneous discoveries.</strong></p>
@@ -627,7 +616,22 @@
     <p class="fade-in" style="font-size: 0.92rem; color: var(--color-muted);">Papers with the largest discrepancy between disruption index (D) and embedding disruptiveness (&Delta;) quantiles. D quantiles near zero reflect mutual citations between co-discoverers; &Delta; quantiles near one reflect the global impact these papers had on their fields.</p>
 
     <p class="fade-in">The Higgs mechanism, asymptotic freedom, density functional theory, the electroweak model, reverse transcriptase, deep inelastic scattering &mdash; some of the most important discoveries of the 20th century. All made simultaneously by independent teams. All ranking in the top 5&ndash;6% by EDM.</p>
+
+    <p class="fade-in">This raised a natural question: if the embeddings already capture these famous cases, could they be used to <em>systematically</em> identify simultaneous discoveries &mdash; including ones nobody has noticed yet?</p>
+
+    <p class="fade-in">The intuition is straightforward. If two independent papers make the same discovery, they should redirect the field in the same way &mdash; meaning their <strong>future vectors</strong> should point in nearly the same direction. We searched for paper pairs whose future vectors are nearest neighbors in embedding space.</p>
+
+    <p class="fade-in">The result: <strong>18,417 potential simultaneous discovery pairs</strong> across the entire Web of Science. Of 80 highly-cited pairs we manually examined, <strong>64 (80%) were confirmed as genuine simultaneous discoveries</strong>.</p>
 </div>
+
+<!-- ============ FIGURE 4 ============ -->
+<figure class="figure fade-in">
+    <img src="Figure_4_PCA_futurevectors.jpg" alt="PCA of future vectors">
+    <figcaption>
+        <strong>Simultaneous discoverers cluster in embedding space.</strong>
+        PCA of future vectors shows that co-discovery pairs are nearest neighbors &mdash; they share the same impact on the field, despite being independent works.
+    </figcaption>
+</figure>
 
 <!-- ============ PART 4: THE TOOL ============ -->
 <div class="divider fade-in">&bull; &bull; &bull;</div>
