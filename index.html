@@ -352,8 +352,8 @@
 <!-- ============ HERO ============ -->
 <div class="hero">
     <div class="hero-label">Research Paper + Open-Source Tool</div>
-    <h1>How do you measure whether a paper changed the world?</h1>
-    <p class="subtitle">The disruption index promised an answer. But it has a blind spot: it can't see when two people make the same breakthrough at the same time.</p>
+    <h1>Measuring Disruption and Simultaneous Discoveries</h1>
+    <p class="subtitle">An embedding-based disruption measure not only robustly captures disruptive works but also reveals simultaneous discoveries.</p>
     <div class="authors">
         <a href="https://munjungkim.github.io">Munjung Kim</a>, <a href="https://skojaku.github.io">Sadamori Kojaku</a>, <a href="https://yyahn.com/about/">Yong-Yeol Ahn</a>
     </div>
@@ -365,17 +365,29 @@
     <div class="scroll-hint">scroll to begin</div>
 </div>
 
-<!-- ============ PART 1: THE PROBLEM ============ -->
+<!-- ============ PART 1: WHY MEASURING DISRUPTION MATTERS ============ -->
 <div class="divider fade-in">&bull; &bull; &bull;</div>
 
 <div class="content">
-    <h2 class="fade-in">In November 1974, two teams made the same discovery.</h2>
+    <h2 class="fade-in">Why measuring disruption matters</h2>
 
-    <p class="fade-in">At Brookhaven National Lab, Samuel Ting's group found a new subatomic particle. Three thousand miles away at SLAC, Burton Richter's team found the exact same particle. They named it the <strong>J/&psi; meson</strong>. Both teams shared the 1976 Nobel Prize.</p>
+    <p class="fade-in">Science is not a static body of knowledge but a dynamic system, continuously reshaped as new discoveries challenge established paradigms. Some contributions maintain an existing trajectory &mdash; <em>consolidating</em> work. Others redirect it toward unforeseen lines of inquiry &mdash; <em>disruptive</em> work.</p>
+
+    <p class="fade-in">Capturing this distinction empirically is challenging. Citation links are sparse and semantically noisy, influence propagates through multi-step pathways, and a single contribution may be distributed across multiple publications or discovered independently by separate teams.</p>
+
+    <p class="fade-in">The <strong>Disruption Index (D)</strong>, introduced by Funk &amp; Owen-Smith and popularized by Wu, Wang &amp; Evans, has become the most widely adopted measure of scientific disruptiveness, used across thousands of studies in scientometrics, management science, and science policy.</p>
+
+    <p class="fade-in">But despite its success, the disruption index has fundamental limitations.</p>
+</div>
+
+<div class="content">
+    <h3 class="fade-in">A concrete example: the J/&psi; meson</h3>
+
+    <p class="fade-in">In November 1974, two independent teams made the same breakthrough. At Brookhaven National Lab, Samuel Ting's group found a new subatomic particle. Three thousand miles away at SLAC, Burton Richter's team found the exact same particle. They named it the <strong>J/&psi; meson</strong>. Both teams shared the 1976 Nobel Prize.</p>
 
     <p class="fade-in">These papers were, by any reasonable definition, <em>disruptive</em>. They fundamentally changed particle physics.</p>
 
-    <p class="fade-in">But the <strong>Disruption Index</strong> &mdash; the standard metric used across thousands of studies &mdash; scored them as <strong>consolidating</strong>. Ting's paper got D&nbsp;=&nbsp;-0.11. Richter's got D&nbsp;=&nbsp;-0.64.</p>
+    <p class="fade-in">But the disruption index scored them as <strong>consolidating</strong>. Ting's paper got D&nbsp;=&nbsp;-0.11. Richter's got D&nbsp;=&nbsp;-0.64.</p>
 </div>
 
 <div class="big-quote fade-in">
@@ -383,7 +395,7 @@
 </div>
 
 <div class="content">
-    <p class="fade-in">This isn't a one-off failure. It's a structural flaw.</p>
+    <p class="fade-in">This isn't a one-off failure. It's a structural limitation &mdash; one of several.</p>
 </div>
 
 <!-- ============ FIGURE 1 ============ -->
@@ -401,18 +413,18 @@
 <div class="content">
     <p class="fade-in">The disruption index only looks at a paper's <em>immediate</em> neighbors. It reduces a rich citation network to three counts: how many papers cite you but not your references, how many cite both, and how many cite only your references.</p>
 
-    <p class="fade-in">The result is a metric that's discrete (it clusters at 0, 0.5, and 1), unstable (one citation can flip the score), and blind to the deeper structure of how ideas propagate.</p>
+    <p class="fade-in">The result is a metric that's discrete (it clusters at 0, 0.5, and 1), unstable (one citation can flip the score), and blind to the deeper structure of how ideas propagate through the network.</p>
 
-    <p class="fade-in">We wanted something better.</p>
+    <p class="fade-in">These challenges raise an important question: can we reliably assess the transformative nature of scientific work despite such limitations?</p>
 </div>
 
 <!-- ============ PART 2: THE SOLUTION ============ -->
 <div class="divider fade-in">&bull; &bull; &bull;</div>
 
 <div class="content">
-    <h2 class="fade-in">What if you could <em>embed</em> disruptiveness?</h2>
+    <h2 class="fade-in">An embedding-based approach</h2>
 
-    <p class="fade-in">Instead of counting neighbors, we learn <strong>vector representations</strong> of each paper from the citation network. The key insight: every paper plays two roles.</p>
+    <p class="fade-in">We introduce an embedding-based measure that captures the extent to which a scientific work redirects the research trajectory. Our approach embeds each paper in a high-dimensional space reflecting its direct <em>and</em> indirect connections to prior and subsequent work. Instead of counting immediate neighbors, we learn <strong>vector representations</strong> from the full citation network. The key insight: every paper plays two roles.</p>
 </div>
 
 <div class="steps fade-in">
