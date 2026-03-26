@@ -365,6 +365,14 @@
     <div class="scroll-hint">scroll to begin</div>
 </div>
 
+<!-- ============ ABSTRACT ============ -->
+<div class="content">
+    <div class="highlight-box fade-in" style="background: #f0efeb; margin-top: 0;">
+        <div class="label">Abstract</div>
+        Progress in science and technology is punctuated by disruptive innovation and breakthroughs. To understand disruptive innovations and their drivers, the ability to operationalize and estimate "disruptiveness" is critical. Yet, this task remains difficult because scientific influence propagates through both direct and indirect citation paths, and discoveries are often fragmented across multiple papers. Here, we introduce an embedding-based metric of disruptiveness. When applied to large-scale publication data, the measure not only reliably identifies canonical breakthroughs, such as Nobel Prize-winning papers, but also discovers simultaneous disruptions that eluded standard approaches. By enabling more robust identification of disruptive innovations and simultaneous discoveries, our method facilitates more accurate attribution of transformative contributions while providing insights into the mechanisms driving scientific breakthroughs.
+    </div>
+</div>
+
 <!-- ============ PART 1: WHY MEASURING DISRUPTION MATTERS ============ -->
 <div class="divider fade-in">&bull; &bull; &bull;</div>
 
@@ -456,9 +464,40 @@
 </figure>
 
 <div class="content">
-    <p class="fade-in">The formula is simple:</p>
+    <h3 class="fade-in">The key trick: a directional skip-gram</h3>
+
+    <p class="fade-in">Standard skip-gram models (like Word2Vec or node2vec) learn a single vector per node. But citation networks are <em>directed</em> &mdash; being cited is fundamentally different from citing. We need each paper to have two separate representations.</p>
+
+    <p class="fade-in">Our skip-gram objective is designed so that:</p>
+</div>
+
+<div class="highlight-box fade-in">
+    <div class="label">The directional constraint</div>
+    <p>When a random walk moves <strong>forward</strong> in time (from a paper to its descendants), the model trains the paper's <strong>future vector</strong> (<strong>f</strong>) to predict the <strong>past vectors</strong> (<strong>p</strong>) of the papers it reaches.</p>
+    <p style="margin-top: 0.5rem;">When a walk moves <strong>backward</strong> (from a paper to its antecedents), the model trains the paper's <strong>past vector</strong> (<strong>p</strong>) to predict the <strong>future vectors</strong> (<strong>f</strong>) of the papers it reaches.</p>
+</div>
+
+<div class="content">
+    <p class="fade-in">Concretely, for a random walk starting from paper <em>s</em>, the objective is:</p>
+
+    <pre class="fade-in" style="text-align: center; font-size: 0.95rem; background: none; border: none; padding: 1rem 0;">J = &Sigma;<sub>s</sub> &Sigma;<sub>r</sub> &Sigma;<sub>t</sub> &Sigma;<sub>w</sub> log Pr(v<sub>t+w</sub> | v<sub>t</sub>)</pre>
+
+    <p class="fade-in">where <em>v<sub>t</sub></em> is the paper at position <em>t</em> in the <em>r</em>-th walk from <em>s</em>, and the prediction window <em>w</em> determines whether we look forward (future) or backward (past) in the walk.</p>
+
+    <p class="fade-in">This is what makes the two vectors learn different things: the <strong>future vector learns to predict where knowledge goes</strong>, and the <strong>past vector learns to predict where knowledge came from</strong>. The same paper, two perspectives.</p>
+
+    <h3 class="fade-in">Mathematical connection to the disruption index</h3>
+
+    <p class="fade-in">We show formally that when the number of walks <em>R</em> and walk length <em>T</em> are large enough, the skip-gram objective simplifies to:</p>
+
+    <pre class="fade-in" style="text-align: center; font-size: 0.95rem; background: none; border: none; padding: 1rem 0;">J &asymp; &Sigma;<sub>u</sub> &Sigma;<sub>v &isin; A(u)</sub> &kappa;<sub>v</sub><sup>in</sup> log Pr(v | u)</pre>
+
+    <p class="fade-in">where <em>A(u)</em> is the set of antecedent papers cited by <em>u</em>, and &kappa;<sub>v</sub><sup>in</sup> is the in-degree (citation count) of paper <em>v</em>. This means the model is implicitly learning from the same citation structure that the disruption index uses &mdash; but through the lens of the <em>entire</em> network, not just immediate neighbors.</p>
+
+    <p class="fade-in">The cosine distance between future and past vectors then captures whether a paper's descendants rely on the same antecedents (consolidating) or diverge from them (disruptive) &mdash; the foundational concept behind the disruption index, but implemented with far greater robustness and resolution.</p>
+
+    <p class="fade-in">The EDM formula is simply:</p>
     <pre class="fade-in"><code>EDM = 1 - cos(future_vector, past_vector)</code></pre>
-    <p class="fade-in">But what it captures is rich: the entire topology of how a paper sits between its intellectual ancestors and descendants.</p>
 </div>
 
 <!-- ============ PART 3: RESULTS ============ -->
