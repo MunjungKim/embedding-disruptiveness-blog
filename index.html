@@ -383,9 +383,9 @@
 
     <p class="fade-in">To study this systematically &mdash; what drives disruptive work, how it reshapes a field, who produces it and under what conditions &mdash; we need a way to <em>measure</em> it. Without a reliable quantitative signal, questions about innovation remain impressionistic.</p>
 
-    <p class="fade-in">The <strong>Disruption Index (D)</strong>, introduced by Funk &amp; Owen-Smith and popularized by Wu, Wang &amp; Evans, has become the most widely adopted measure of scientific disruptiveness, used across thousands of studies in scientometrics, management science, and science policy. It has enabled a wave of large-scale findings about how innovation works: that <a href="https://www.nature.com/articles/s41586-019-0941-9">small teams disrupt while large teams develop</a>, that <a href="https://www.nature.com/articles/s41586-022-05543-x">papers and patents are becoming less disruptive over time</a>, and that <a href="https://www.nature.com/articles/s41586-023-06767-1">remote collaboration fuses fewer breakthroughs</a>.</p>
+    <p class="fade-in">The <strong>Disruption Index (D)</strong>, introduced by Funk &amp; Owen-Smith and popularized by Wu, Wang &amp; Evans, has become the most widely adopted measure of scientific disruptiveness, used across thousands of studies in scientometrics, management science, and science policy.</p>
 
-    <p class="fade-in">The idea behind it is deceptively simple &mdash; and elegant. Imagine a paper sitting between its past (the works it cites) and its future (the works that cite it). If that paper is truly disruptive, something striking happens: <strong>the future no longer looks back.</strong> Descendants cite the focal paper but not its references &mdash; as if the paper rendered them obsolete. The stream of knowledge bends. Conversely, if the paper is consolidating, the future keeps citing both the paper <em>and</em> its references, reinforcing the existing current rather than redirecting it.</p>
+    <p class="fade-in">The idea behind it is simple but powerful. A paper sits between its past (the works it cites) and its future (the works that cite it). If a paper is disruptive, it bends the stream of knowledge &mdash; future work moves in a new direction and gradually loses touch with the paper's references. As a result, descendants cite the focal paper but <strong>no longer cite its references</strong>. Conversely, if a paper is consolidating, the future keeps citing both the paper <em>and</em> its references, reinforcing the existing trajectory.</p>
 </div>
 
 <figure class="figure fade-in">
@@ -398,6 +398,8 @@
 
 <div class="content">
     <p class="fade-in">The disruption index distills this into a single number: D&nbsp;=&nbsp;(n<sub>i</sub>&nbsp;&minus;&nbsp;n<sub>j</sub>)&nbsp;/&nbsp;(n<sub>i</sub>&nbsp;+&nbsp;n<sub>j</sub>&nbsp;+&nbsp;n<sub>k</sub>), where n<sub>i</sub> counts papers that cite only the focal work, n<sub>j</sub> counts those that cite both the focal work and its references, and n<sub>k</sub> counts those that skip the focal work entirely. A score near +1 means the paper broke the chain; a score near &minus;1 means it strengthened it.</p>
+
+    <p class="fade-in">This simple measure has enabled a wave of large-scale findings about how innovation works: that small teams disrupt while large teams develop [1], that papers and patents are becoming less disruptive over time [2], and that remote collaboration fuses fewer breakthroughs [3].</p>
 
     <p class="fade-in">But scientific influence rarely stays local. A breakthrough can ripple through chains of citations that span decades and disciplines. A discovery can be fragmented across multiple papers, or made independently by separate teams who then cite each other. These higher-order structures &mdash; indirect paths, long-range dependencies, and distributed discoveries &mdash; are invisible to any measure that looks only at a paper's immediate neighbors.</p>
 
@@ -545,6 +547,24 @@
 </div>
 
 <div class="content">
+    <h3 class="fade-in">The unit of discovery is not always a single paper</h3>
+
+    <p class="fade-in">A closer look at APS milestone papers with low D scores reveals that many are not genuinely consolidating. Of 57 milestone papers in the bottom 10% of D, we manually examined each one: <strong>25 (43.9%)</strong> had low scores driven by citation artifacts &mdash; mutual citations among simultaneous discoverers, or internal citations within multi-part paper series by the same team. The unit of discovery, in these cases, was not a single paper but a cluster of related publications.</p>
+
+    <p class="fade-in">When we remove these cases, the distribution of D for milestone papers shifts dramatically &mdash; the puzzling concentration at the low end largely disappears.</p>
+</div>
+
+<figure class="figure fade-in" style="max-width: 500px;">
+    <img src="no_artifact.png" alt="D distribution of milestone papers after removing citation artifacts">
+    <figcaption>
+        <strong>Milestone papers after removing citation artifacts.</strong>
+        The bimodal pile-up at low D (visible in Figure 3B) largely vanishes once simultaneous and collective discoveries are accounted for. The remaining milestone papers cluster toward high D, as expected.
+    </figcaption>
+</figure>
+
+<div class="content">
+    <p class="fade-in">This does not diminish the disruption index &mdash; it reinforces its core insight. It simply reminds us that simultaneous discoveries and collective publications are more common than we might assume, and that the natural unit of a "discovery" does not always map neatly onto a single paper.</p>
+
     <h3 class="fade-in">Where D and EDM disagree</h3>
 
     <p class="fade-in">We examined the papers with the largest discrepancies between D and &Delta; &mdash; papers where the disruption index and EDM disagree the most. An intriguing pattern emerged: <strong>they were all simultaneous discoveries.</strong></p>
@@ -708,6 +728,16 @@ trainer.cal_embedding_disruptiveness()   # compute & save distance.npy</code></p
   distance.npy  # EDM scores     (n_nodes,)</code></pre>
 
     <p class="fade-in">Each paper gets an EDM score (cosine distance between its future and past vectors). Higher values indicate more disruptive work. The absolute scale depends on training hyperparameters, so we recommend comparing papers by their <strong>relative rank</strong> rather than raw scores.</p>
+</div>
+
+<!-- ============ REFERENCES ============ -->
+<div class="content">
+    <h3 class="fade-in">References</h3>
+    <p class="fade-in" style="font-size: 0.88rem; line-height: 1.8; color: var(--color-muted);">
+        [1] Wu, L., Wang, D. &amp; Evans, J.A. Large teams develop and small teams disrupt science and technology. <em>Nature</em> 566, 378&ndash;382 (2019). <a href="https://www.nature.com/articles/s41586-019-0941-9">doi:10.1038/s41586-019-0941-9</a><br>
+        [2] Park, M., Leahey, E. &amp; Funk, R.J. Papers and patents are becoming less disruptive over time. <em>Nature</em> 613, 138&ndash;144 (2023). <a href="https://www.nature.com/articles/s41586-022-05543-x">doi:10.1038/s41586-022-05543-x</a><br>
+        [3] Lin, Y., Frey, C.B. &amp; Wu, L. Remote collaboration fuses fewer breakthrough ideas. <em>Nature</em> 623, 987&ndash;991 (2023). <a href="https://www.nature.com/articles/s41586-023-06767-1">doi:10.1038/s41586-023-06767-1</a>
+    </p>
 </div>
 
 <!-- ============ FOOTER ============ -->
