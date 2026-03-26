@@ -617,7 +617,7 @@
 
     <p class="fade-in">The Higgs mechanism, asymptotic freedom, density functional theory, the electroweak model, reverse transcriptase, deep inelastic scattering &mdash; some of the most important discoveries of the 20th century. All made simultaneously by independent teams. All ranking in the top 5&ndash;6% by EDM.</p>
 
-    <p class="fade-in">This raised a natural question: if the embeddings already capture these famous cases, could they be used to <em>systematically</em> identify simultaneous discoveries &mdash; including ones nobody has noticed yet?</p>
+    <p class="fade-in">This raised a natural question: if the embeddings already capture these famous cases, could they be used to <em>systematically</em> identify simultaneous discoveries at scale?</p>
 
     <p class="fade-in">The intuition is straightforward. If two independent papers make the same discovery, they should redirect the field in the same way &mdash; meaning their <strong>future vectors</strong> should point in nearly the same direction. We searched for paper pairs whose future vectors are nearest neighbors in embedding space.</p>
 
@@ -641,14 +641,38 @@
 
     <p class="fade-in">Everything in this paper is packaged as an open-source Python library. Install it and compute EDM on your own citation network in minutes.</p>
 
+    <h3 class="fade-in">Requirements</h3>
+    <p class="fade-in">The disruption index computation runs on CPU only. Embedding training requires <strong>2 CUDA-capable GPUs</strong> (one for past vectors, one for future vectors). Python &ge; 3.8.</p>
+
     <h3 class="fade-in">Install</h3>
-    <pre class="fade-in"><code>pip install embedding-disruptiveness</code></pre>
+    <pre class="fade-in"><code>pip install embedding-disruptiveness
+
+# or, with uv
+uv pip install embedding-disruptiveness</code></pre>
+
+    <h3 class="fade-in">Preparing your network</h3>
+    <p class="fade-in">The package expects a <code>scipy.sparse.csr_matrix</code>. If your data is in a different format, use the built-in converter:</p>
+    <pre class="fade-in"><code>import numpy as np
+import scipy.sparse
+from embedding_disruptiveness.utils import to_adjacency_matrix
+
+# From a .npz file (already sparse)
+net = scipy.sparse.load_npz("citation_network.npz")
+
+# From an edge list: [[src, dst], ...]
+edges = np.array([[0, 1], [1, 2], [2, 3]])
+net = to_adjacency_matrix(edges, edgelist=True)
+
+# From a weighted edge list: [[src, dst, weight], ...]
+weighted = np.array([[0, 1, 0.5], [1, 2, 1.0]])
+net = to_adjacency_matrix(weighted, edgelist=True)
+
+# From a COO matrix
+coo = scipy.sparse.coo_matrix((data, (row, col)), shape=(n, n))
+net = to_adjacency_matrix(coo)</code></pre>
 
     <h3 class="fade-in">Step 1: Compute the Disruption Index</h3>
     <pre class="fade-in"><code>import embedding_disruptiveness as edm
-import scipy.sparse
-
-net = scipy.sparse.load_npz("citation_network.npz")
 
 # Automatically picks the best method for your network size
 di = edm.calc_disruption_index(net)
@@ -675,18 +699,6 @@ di_2step = edm.calc_multistep_disruption_index(net)</code></pre>
 trainer.train()                          # train the skip-gram model
 trainer.save_embeddings()                # save in.npy, out.npy
 trainer.cal_embedding_disruptiveness()   # compute & save distance.npy</code></pre>
-
-    <h3 class="fade-in">Step 3: Convert Edge Lists (Optional)</h3>
-    <pre class="fade-in"><code>import numpy as np
-from embedding_disruptiveness.utils import to_adjacency_matrix
-
-# From edge list
-edges = np.array([[0, 1], [1, 2], [2, 3]])
-net = to_adjacency_matrix(edges, edgelist=True)
-
-# From weighted edge list
-weighted = np.array([[0, 1, 0.5], [1, 2, 1.0]])
-net = to_adjacency_matrix(weighted, edgelist=True)</code></pre>
 
     <h3 class="fade-in">Output Files</h3>
     <p class="fade-in">After training, your <code>save_dir</code> will contain:</p>
