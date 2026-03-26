@@ -359,7 +359,7 @@
     </div>
     <div class="links">
         <a href="https://arxiv.org/abs/2502.16845">Paper</a>
-        <a href="https://github.com/MunjungKim/embedding-disruptiveness">Code</a>
+        <a href="https://github.com/yy/embedding-disruptiveness">Code</a>
         <a href="https://pypi.org/project/embedding-disruptiveness/">PyPI</a>
     </div>
     <div class="scroll-hint">scroll to begin</div>
@@ -707,7 +707,7 @@ trainer.cal_embedding_disruptiveness()   # compute & save distance.npy</code></p
   out.npy       # future vectors (n_nodes x dim)
   distance.npy  # EDM scores     (n_nodes,)</code></pre>
 
-    <p class="fade-in">Each paper gets an EDM score between 0 (consolidating) and ~1 (disruptive). You can rank, filter, and analyze these scores however you like.</p>
+    <p class="fade-in">Each paper gets an EDM score (cosine distance between its future and past vectors). Higher values indicate more disruptive work. The absolute scale depends on training hyperparameters, so we recommend comparing papers by their <strong>relative rank</strong> rather than raw scores.</p>
 </div>
 
 <!-- ============ FOOTER ============ -->
@@ -717,7 +717,7 @@ trainer.cal_embedding_disruptiveness()   # compute & save distance.npy</code></p
     <strong>Measuring Disruption and Simultaneous Discoveries</strong><br>
     <a href="https://munjungkim.github.io">Munjung Kim</a>, <a href="https://skojaku.github.io">Sadamori Kojaku</a>, <a href="https://yyahn.com/about/">Yong-Yeol Ahn</a><br><br>
     <a href="https://arxiv.org/abs/2502.16845">arXiv:2502.16845</a> &nbsp;&middot;&nbsp;
-    <a href="https://github.com/MunjungKim/embedding-disruptiveness">GitHub</a> &nbsp;&middot;&nbsp;
+    <a href="https://github.com/yy/embedding-disruptiveness">GitHub</a> &nbsp;&middot;&nbsp;
     <a href="https://pypi.org/project/embedding-disruptiveness/">PyPI</a>
 </div>
 
