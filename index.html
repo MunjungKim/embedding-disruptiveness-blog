@@ -385,20 +385,42 @@
 
     <p class="fade-in">The <strong>Disruption Index (D)</strong>, introduced by Funk &amp; Owen-Smith and popularized by Wu, Wang &amp; Evans, has become the most widely adopted measure of scientific disruptiveness, used across thousands of studies in scientometrics, management science, and science policy.</p>
 
-    <p class="fade-in">We build on this foundation. Our embedding-based approach is designed to complement existing measures by additionally capturing indirect citation paths and a phenomenon that local measures are not designed to address: <strong>simultaneous discoveries</strong>.</p>
+    <p class="fade-in">The idea behind it is deceptively simple &mdash; and, we think, genuinely beautiful. Imagine a paper sitting between its past (the works it cites) and its future (the works that cite it). If that paper is truly disruptive, something striking happens: <strong>the future stops looking back.</strong> Descendants cite the focal paper but no longer bother citing its references &mdash; because the paper rendered them obsolete. The stream of knowledge bends. Conversely, if the paper is consolidating, the future keeps citing both the paper <em>and</em> its references, reinforcing the existing current rather than redirecting it.</p>
+</div>
+
+<figure class="figure fade-in">
+    <img src="image.png" alt="Disruption Index illustration">
+    <figcaption>
+        <strong>The intuition behind the Disruption Index.</strong>
+        A disruptive paper redirects the flow of citations: its descendants no longer look back to its antecedents. A developing paper reinforces the existing stream: descendants continue to cite both the paper and its references.
+    </figcaption>
+</figure>
+
+<div class="content">
+    <p class="fade-in">The disruption index distills this into a single number: D&nbsp;=&nbsp;(n<sub>i</sub>&nbsp;&minus;&nbsp;n<sub>j</sub>)&nbsp;/&nbsp;(n<sub>i</sub>&nbsp;+&nbsp;n<sub>j</sub>&nbsp;+&nbsp;n<sub>k</sub>), where n<sub>i</sub> counts papers that cite only the focal work, n<sub>j</sub> counts those that cite both the focal work and its references, and n<sub>k</sub> counts those that skip the focal work entirely. A score near +1 means the paper broke the chain; a score near &minus;1 means it strengthened it.</p>
+
+    <p class="fade-in">We build on this foundation. Our embedding-based approach is designed to complement the disruption index by additionally capturing indirect citation paths and a phenomenon that local measures are not designed to address: <strong>simultaneous discoveries</strong>.</p>
 </div>
 
 <div class="content">
-    <h3 class="fade-in">Motivating example: the J/&psi; meson</h3>
+    <h3 class="fade-in">Motivating example: the Higgs boson</h3>
 
-    <p class="fade-in">In November 1974, two independent teams made the same breakthrough. At Brookhaven National Lab, Samuel Ting's group found a new subatomic particle. Three thousand miles away at SLAC, Burton Richter's team found the exact same particle. They named it the <strong>J/&psi; meson</strong>. Both teams shared the 1976 Nobel Prize.</p>
+    <p class="fade-in">In 1964, two papers independently proposed the same idea: a mechanism that gives mass to elementary particles. Fran&ccedil;ois Englert and Robert Brout published first; weeks later, Peter Higgs published an independent formulation. Both papers described the same physics. Both led to the 2013 Nobel Prize.</p>
 
-    <p class="fade-in">Merton's theory of multiple discoveries suggests that such simultaneous, independent scientific advances are the norm rather than the exception &mdash; as exemplified by Newton and Leibniz's formulations of calculus, or Darwin and Wallace's parallel development of evolutionary theory.</p>
-
-    <p class="fade-in">When two teams independently make the same breakthrough, they naturally cite each other. This mutual citation pattern causes local measures like the disruption index to score both papers as consolidating (D&nbsp;=&nbsp;-0.11 and D&nbsp;=&nbsp;-0.64 for the J/&psi; papers), even though they represent a paradigm shift. This is not a flaw of the disruption index per se &mdash; it's a consequence of measuring disruption from local topology alone.</p>
+    <p class="fade-in">Yet the disruption index assigns them strikingly different scores: D&nbsp;=&nbsp;0.15 for Englert &amp; Brout, but D&nbsp;=&nbsp;&minus;0.27 for Higgs. One lands in the top 2.8%; the other in the bottom 0.1%. The <em>same</em> discovery, measured as disruptive on one side and consolidating on the other.</p>
 </div>
 
+<figure class="figure fade-in">
+    <img src="higgs_case2.png" alt="Higgs boson case: same discovery, different disruption scores">
+    <figcaption>
+        <strong>Same discovery, opposite scores.</strong>
+        Englert &amp; Brout (1964) and Higgs (1964) independently proposed the same mechanism, shared the 2013 Nobel Prize, yet receive very different disruption index scores. The difference arises from local citation patterns &mdash; not from any real difference in their contribution.
+    </figcaption>
+</figure>
+
 <div class="content">
+    <p class="fade-in">This is not a flaw of the disruption index per se &mdash; it's a consequence of measuring disruption from local citation topology alone. When two teams independently make the same breakthrough, their mutual citations and the small differences in who cites whom can swing the score dramatically. Merton's theory of multiple discoveries suggests that such simultaneous, independent advances are the norm rather than the exception &mdash; Newton and Leibniz, Darwin and Wallace, and as we will show, hundreds of pairs across modern science.</p>
+
     <p class="fade-in">These observations motivate an approach that leverages the full network structure &mdash; including indirect paths and higher-order relationships &mdash; to provide a complementary perspective on scientific disruptiveness.</p>
 </div>
 
@@ -509,15 +531,15 @@
 </div>
 
 <div class="content">
-    <h3 class="fade-in">Revisiting the J/&psi; meson</h3>
-    <p class="fade-in">Because EDM captures global network structure rather than local citation counts alone, it provides a complementary view of the J/&psi; co-discovery:</p>
+    <h3 class="fade-in">Revisiting the Higgs boson</h3>
+    <p class="fade-in">Remember our motivating example? The disruption index gave Englert &amp; Brout and Higgs opposite scores for the same discovery. EDM tells a different story:</p>
 </div>
 
 <div class="highlight-box fade-in">
-    <div class="label">J/&psi; Meson Discovery (1974)</div>
-    <strong>Disruption Index:</strong> D = -0.11 and D = -0.64<br>
-    <strong>EDM:</strong> &Delta; = 0.99 and &Delta; = 0.97<br><br>
-    The local measure reflects mutual citations between co-discoverers. The embedding-based measure captures the broader impact: both papers fundamentally redirected the field.
+    <div class="label">Higgs Mechanism (1964) &mdash; 2013 Nobel Prize</div>
+    <strong>Disruption Index:</strong> D = 0.15 (Englert &amp; Brout) vs D = &minus;0.27 (Higgs)<br>
+    <strong>EDM:</strong> &Delta; = 0.96 and &Delta; = 0.96<br><br>
+    The local measure splits the same discovery into "disruptive" and "consolidating." The embedding-based measure recognizes both papers for what they are: equally transformative contributions that redirected the field.
 </div>
 
 <div class="content">
