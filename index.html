@@ -334,6 +334,11 @@
             .big-quote { font-size: 1.2rem; }
         }
 
+        /* --- KaTeX overrides --- */
+        .katex-display {
+            margin: 1.5rem 0;
+        }
+
         /* --- Fade in on scroll --- */
         .fade-in {
             opacity: 0;
@@ -346,6 +351,16 @@
             transform: translateY(0);
         }
     </style>
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\\(', right: '\\)', display: false}
+            ]
+        });"></script>
 </head>
 <body>
 
@@ -383,7 +398,7 @@
 
     <p class="fade-in">To study this systematically &mdash; what drives disruptive work, how it reshapes a field, who produces it and under what conditions &mdash; we need a way to <em>measure</em> it. Without a reliable quantitative signal, questions about innovation remain impressionistic.</p>
 
-    <p class="fade-in">The <strong>Disruption Index (D)</strong>, introduced by Funk &amp; Owen-Smith and popularized by Wu, Wang &amp; Evans, has become the most widely adopted measure of scientific disruptiveness, used across thousands of studies in scientometrics, management science, and science policy.</p>
+    <p class="fade-in">The <strong>Disruption Index (\(D\))</strong>, introduced by Funk &amp; Owen-Smith and popularized by Wu, Wang &amp; Evans, has become the most widely adopted measure of scientific disruptiveness, used across thousands of studies in scientometrics, management science, and science policy.</p>
 
     <p class="fade-in">The idea behind it is simple but powerful. A paper sits between its past (the works it cites) and its future (the works that cite it). If a paper is disruptive, it bends the stream of knowledge &mdash; future work moves in a new direction and gradually loses touch with the paper's references. As a result, descendants cite the focal paper but <strong>no longer cite its references</strong>. Conversely, if a paper is consolidating, the future keeps citing both the paper <em>and</em> its references, reinforcing the existing trajectory.</p>
 </div>
@@ -397,7 +412,7 @@
 </figure>
 
 <div class="content">
-    <p class="fade-in">The disruption index distills this into a single number: D&nbsp;=&nbsp;(n<sub>i</sub>&nbsp;&minus;&nbsp;n<sub>j</sub>)&nbsp;/&nbsp;(n<sub>i</sub>&nbsp;+&nbsp;n<sub>j</sub>&nbsp;+&nbsp;n<sub>k</sub>), where n<sub>i</sub> counts papers that cite only the focal work, n<sub>j</sub> counts those that cite both the focal work and its references, and n<sub>k</sub> counts those that skip the focal work entirely. A score near +1 means the paper broke the chain; a score near &minus;1 means it strengthened it.</p>
+    <p class="fade-in">The disruption index distills this into a single number: $$D = \frac{n_i - n_j}{n_i + n_j + n_k}$$ where \(n_i\) counts papers that cite only the focal work, \(n_j\) counts those that cite both the focal work and its references, and \(n_k\) counts those that skip the focal work entirely. A score near \(+1\) means the paper broke the chain; a score near \(-1\) means it strengthened it.</p>
 
     <p class="fade-in">This simple measure has enabled a wave of large-scale findings about how innovation works: that small teams disrupt while large teams develop [1], that papers and patents are becoming less disruptive over time [2], and that remote collaboration fuses fewer breakthroughs [3].</p>
 
@@ -411,7 +426,7 @@
 
     <p class="fade-in">In 1964, two papers independently proposed the same idea: a mechanism that gives mass to elementary particles. Fran&ccedil;ois Englert and Robert Brout published first; weeks later, Peter Higgs published an independent formulation. Both papers described the same physics. Both led to the 2013 Nobel Prize.</p>
 
-    <p class="fade-in">Yet the disruption index assigns them strikingly different scores: D&nbsp;=&nbsp;0.15 for Englert &amp; Brout, but D&nbsp;=&nbsp;&minus;0.27 for Higgs. One lands in the top 2.8%; the other in the bottom 0.1%. The <em>same</em> discovery, measured as disruptive on one side and consolidating on the other.</p>
+    <p class="fade-in">Yet the disruption index assigns them strikingly different scores: \(D = 0.15\) for Englert &amp; Brout, but \(D = -0.27\) for Higgs. One lands in the top 2.8%; the other in the bottom 0.1%. The <em>same</em> discovery, measured as disruptive on one side and consolidating on the other.</p>
 </div>
 
 <figure class="figure fade-in">
@@ -475,31 +490,31 @@
 
 <div class="highlight-box fade-in">
     <div class="label">The directional constraint</div>
-    <p>When a random walk moves <strong>forward</strong> in time (from a paper to its descendants), the model trains the paper's <strong>future vector</strong> (<strong>f</strong>) to predict the <strong>past vectors</strong> (<strong>p</strong>) of the papers it reaches.</p>
-    <p style="margin-top: 0.5rem;">When a walk moves <strong>backward</strong> (from a paper to its antecedents), the model trains the paper's <strong>past vector</strong> (<strong>p</strong>) to predict the <strong>future vectors</strong> (<strong>f</strong>) of the papers it reaches.</p>
+    <p>When a random walk moves <strong>forward</strong> in time (from a paper to its descendants), the model trains the paper's <strong>future vector</strong> (\(\mathbf{f}\)) to predict the <strong>past vectors</strong> (\(\mathbf{p}\)) of the papers it reaches.</p>
+    <p style="margin-top: 0.5rem;">When a walk moves <strong>backward</strong> (from a paper to its antecedents), the model trains the paper's <strong>past vector</strong> (\(\mathbf{p}\)) to predict the <strong>future vectors</strong> (\(\mathbf{f}\)) of the papers it reaches.</p>
 </div>
 
 <div class="content">
     <p class="fade-in">Concretely, for a random walk starting from paper <em>s</em>, the objective is:</p>
 
-    <pre class="fade-in" style="text-align: center; font-size: 0.95rem; background: none; border: none; padding: 1rem 0;">J = &Sigma;<sub>s</sub> &Sigma;<sub>r</sub> &Sigma;<sub>t</sub> &Sigma;<sub>w</sub> log Pr(v<sub>t+w</sub> | v<sub>t</sub>)</pre>
+    <p class="fade-in">$$J = \sum_{s} \sum_{r} \sum_{t} \sum_{w} \log \Pr(v_{t+w} \mid v_t)$$</p>
 
-    <p class="fade-in">where <em>v<sub>t</sub></em> is the paper at position <em>t</em> in the <em>r</em>-th walk from <em>s</em>, and the prediction window <em>w</em> determines whether we look forward (future) or backward (past) in the walk.</p>
+    <p class="fade-in">where \(v_t\) is the paper at position \(t\) in the \(r\)-th walk from \(s\), and the prediction window \(w\) determines whether we look forward (future) or backward (past) in the walk.</p>
 
     <p class="fade-in">This is what makes the two vectors learn different things: the <strong>future vector learns to predict where knowledge goes</strong>, and the <strong>past vector learns to predict where knowledge came from</strong>. The same paper, two perspectives.</p>
 
     <h3 class="fade-in">Mathematical connection to the disruption index</h3>
 
-    <p class="fade-in">We show formally that when the number of walks <em>R</em> and walk length <em>T</em> are large enough, the skip-gram objective simplifies to:</p>
+    <p class="fade-in">We show formally that when the number of walks \(R\) and walk length \(T\) are large enough, the skip-gram objective simplifies to:</p>
 
-    <pre class="fade-in" style="text-align: center; font-size: 0.95rem; background: none; border: none; padding: 1rem 0;">J &asymp; &Sigma;<sub>u</sub> &Sigma;<sub>v &isin; A(u)</sub> &kappa;<sub>v</sub><sup>in</sup> log Pr(v | u)</pre>
+    <p class="fade-in">$$J \approx \sum_{u} \sum_{v \in A(u)} \kappa_v^{\text{in}} \log \Pr(v \mid u)$$</p>
 
-    <p class="fade-in">where <em>A(u)</em> is the set of antecedent papers cited by <em>u</em>, and &kappa;<sub>v</sub><sup>in</sup> is the in-degree (citation count) of paper <em>v</em>. This means the model is implicitly learning from the same citation structure that the disruption index uses &mdash; but through the lens of the <em>entire</em> network, not just immediate neighbors.</p>
+    <p class="fade-in">where \(A(u)\) is the set of antecedent papers cited by \(u\), and \(\kappa_v^{\text{in}}\) is the in-degree (citation count) of paper \(v\). This means the model is implicitly learning from the same citation structure that the disruption index uses &mdash; but through the lens of the <em>entire</em> network, not just immediate neighbors.</p>
 
     <p class="fade-in">The cosine distance between future and past vectors then captures whether a paper's descendants rely on the same antecedents (consolidating) or diverge from them (disruptive) &mdash; the foundational concept behind the disruption index, but implemented with far greater robustness and resolution.</p>
 
     <p class="fade-in">The EDM formula is simply:</p>
-    <pre class="fade-in"><code>EDM = 1 - cos(future_vector, past_vector)</code></pre>
+    <p class="fade-in">$$\text{EDM} = 1 - \cos(\mathbf{f}, \mathbf{p})$$</p>
 </div>
 
 <!-- ============ PART 3: RESULTS ============ -->
@@ -518,19 +533,19 @@
         (A) EDM produces a smooth distribution; D clusters at discrete values.
         (B) Milestone and Nobel Prize papers rank higher under EDM.
         (C) Individual paper rankings are more stable across randomized networks.
-        (D) Firth's logistic regression: EDM is statistically significant; D is not.
-        (E) Five landmark simultaneous discoveries &mdash; both co-discoverers score high on EDM, while D penalizes them.
+        (D) Firth's logistic regression: EDM is statistically significant; \(D\) is not.
+        (E) Five landmark simultaneous discoveries &mdash; both co-discoverers score high on EDM, while \(D\) penalizes them.
     </figcaption>
 </figure>
 
 <div class="comparison fade-in">
     <table>
         <tr><th></th><th>Disruption Index</th><th>EDM</th></tr>
-        <tr><td>Distribution</td><td>Discrete, clusters at 0, 0.5, 1</td><td>Smooth, continuous</td></tr>
+        <tr><td>Distribution</td><td>Discrete, clusters at \(0, 0.5, 1\)</td><td>Smooth, continuous</td></tr>
         <tr><td>Scope</td><td>Local (immediate neighbors)</td><td>Global (full network structure)</td></tr>
         <tr><td>Simultaneous discoveries</td><td>Not designed to capture</td><td>Captured via shared future vectors</td></tr>
-        <tr><td>APS Milestone papers</td><td>OR not significant</td><td class="good">OR = 1.23, p &lt; 0.001</td></tr>
-        <tr><td>Nobel Prize papers</td><td>OR not significant</td><td class="good">OR = 1.34, p &lt; 0.001</td></tr>
+        <tr><td>APS Milestone papers</td><td>OR not significant</td><td class="good">OR \(= 1.23, p < 0.001\)</td></tr>
+        <tr><td>Nobel Prize papers</td><td>OR not significant</td><td class="good">OR \(= 1.34, p < 0.001\)</td></tr>
     </table>
 </div>
 
@@ -541,39 +556,39 @@
 
 <div class="highlight-box fade-in">
     <div class="label">Higgs Mechanism (1964) &mdash; 2013 Nobel Prize</div>
-    <strong>Disruption Index:</strong> D = 0.15 (Englert &amp; Brout) vs D = &minus;0.27 (Higgs)<br>
-    <strong>EDM:</strong> &Delta; = 0.96 and &Delta; = 0.96<br><br>
+    <strong>Disruption Index:</strong> \(D = 0.15\) (Englert &amp; Brout) vs \(D = -0.27\) (Higgs)<br>
+    <strong>EDM:</strong> \(\Delta = 0.96\) and \(\Delta = 0.96\)<br><br>
     The local measure splits the same discovery into "disruptive" and "consolidating." The embedding-based measure recognizes both papers for what they are: equally transformative contributions that redirected the field.
 </div>
 
 <div class="content">
     <h3 class="fade-in">The unit of discovery is not always a single paper</h3>
 
-    <p class="fade-in">A closer look at APS milestone papers with low D scores reveals that many are not genuinely consolidating. Of 57 milestone papers in the bottom 10% of D, we manually examined each one: <strong>25 (43.9%)</strong> had low scores driven by citation artifacts &mdash; mutual citations among simultaneous discoverers, or internal citations within multi-part paper series by the same team. The unit of discovery, in these cases, was not a single paper but a cluster of related publications.</p>
+    <p class="fade-in">A closer look at APS milestone papers with low \(D\) scores reveals that many are not genuinely consolidating. Of 57 milestone papers in the bottom 10% of \(D\), we manually examined each one: <strong>25 (43.9%)</strong> had low scores driven by citation artifacts &mdash; mutual citations among simultaneous discoverers, or internal citations within multi-part paper series by the same team. The unit of discovery, in these cases, was not a single paper but a cluster of related publications.</p>
 
-    <p class="fade-in">When we remove these cases, the distribution of D for milestone papers shifts dramatically &mdash; the puzzling concentration at the low end largely disappears.</p>
+    <p class="fade-in">When we remove these cases, the distribution of \(D\) for milestone papers shifts dramatically &mdash; the puzzling concentration at the low end largely disappears.</p>
 </div>
 
 <figure class="figure fade-in" style="max-width: 500px;">
     <img src="no_artifact.png" alt="D distribution of milestone papers after removing citation artifacts">
     <figcaption>
         <strong>Milestone papers after removing citation artifacts.</strong>
-        The bimodal pile-up at low D (visible in Figure 3B) largely vanishes once simultaneous and collective discoveries are accounted for. The remaining milestone papers cluster toward high D, as expected.
+        The bimodal pile-up at low \(D\) (visible in Figure 3B) largely vanishes once simultaneous and collective discoveries are accounted for. The remaining milestone papers cluster toward high \(D\), as expected.
     </figcaption>
 </figure>
 
 <div class="content">
     <p class="fade-in">This does not diminish the disruption index &mdash; it reinforces its core insight. It simply reminds us that simultaneous discoveries and collective publications are more common than we might assume, and that the natural unit of a "discovery" does not always map neatly onto a single paper.</p>
 
-    <h3 class="fade-in">Where D and EDM disagree</h3>
+    <h3 class="fade-in">Where \(D\) and EDM disagree</h3>
 
-    <p class="fade-in">We examined the papers with the largest discrepancies between D and &Delta; &mdash; papers where the disruption index and EDM disagree the most. An intriguing pattern emerged: <strong>they were all simultaneous discoveries.</strong></p>
+    <p class="fade-in">We examined the papers with the largest discrepancies between \(D\) and \(\Delta\) &mdash; papers where the disruption index and EDM disagree the most. An intriguing pattern emerged: <strong>they were all simultaneous discoveries.</strong></p>
 </div>
 
 <!-- ============ SIMULTANEOUS DISCOVERIES TABLE ============ -->
 <div class="comparison fade-in">
     <table>
-        <tr><th>Paper</th><th>Year</th><th style="text-align:center">D quantile</th><th style="text-align:center">&Delta; quantile</th><th>Simultaneous Discovery Pair</th></tr>
+        <tr><th>Paper</th><th>Year</th><th style="text-align:center">\(D\) quantile</th><th style="text-align:center">\(\Delta\) quantile</th><th>Simultaneous Discovery Pair</th></tr>
         <tr>
             <td style="font-weight:400">Kohn &amp; Sham &mdash; <em>Self-consistent equations including exchange and correlation effects</em></td>
             <td>1965</td><td style="text-align:center">0.001</td><td style="text-align:center"><strong>0.959</strong></td>
@@ -633,7 +648,7 @@
 </div>
 
 <div class="content">
-    <p class="fade-in" style="font-size: 0.92rem; color: var(--color-muted);">Papers with the largest discrepancy between disruption index (D) and embedding disruptiveness (&Delta;) quantiles. D quantiles near zero reflect mutual citations between co-discoverers; &Delta; quantiles near one reflect the global impact these papers had on their fields.</p>
+    <p class="fade-in" style="font-size: 0.92rem; color: var(--color-muted);">Papers with the largest discrepancy between disruption index (\(D\)) and embedding disruptiveness (\(\Delta\)) quantiles. \(D\) quantiles near zero reflect mutual citations between co-discoverers; \(\Delta\) quantiles near one reflect the global impact these papers had on their fields.</p>
 
     <p class="fade-in">The Higgs mechanism, asymptotic freedom, density functional theory, the electroweak model, reverse transcriptase, deep inelastic scattering &mdash; some of the most important discoveries of the 20th century. All made simultaneously by independent teams. All ranking in the top 5&ndash;6% by EDM.</p>
 
@@ -662,7 +677,7 @@
     <p class="fade-in">Everything in this paper is packaged as an open-source Python library. Install it and compute EDM on your own citation network in minutes.</p>
 
     <h3 class="fade-in">Requirements</h3>
-    <p class="fade-in">The disruption index computation runs on CPU only. Embedding training requires <strong>2 CUDA-capable GPUs</strong> (one for past vectors, one for future vectors). Python &ge; 3.8.</p>
+    <p class="fade-in">The disruption index computation runs on CPU only. Embedding training requires <strong>2 CUDA-capable GPUs</strong> (one for past vectors, one for future vectors). Python \(\geq\) 3.8.</p>
 
     <h3 class="fade-in">Install</h3>
     <pre class="fade-in"><code>pip install embedding-disruptiveness
