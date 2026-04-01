@@ -677,7 +677,7 @@
     <p class="fade-in">Everything in this paper is packaged as an open-source Python library. Install it and compute EDM on your own citation network in minutes.</p>
 
     <h3 class="fade-in">Requirements</h3>
-    <p class="fade-in">The disruption index computation runs on CPU only. Embedding training requires <strong>2 CUDA-capable GPUs</strong> (one for past vectors, one for future vectors). Python \(\geq\) 3.8.</p>
+    <p class="fade-in">The disruption index computation runs on CPU only. Embedding training requires <strong>at least 1 CUDA-capable GPU</strong>. For large networks, using 2 GPUs (one for past vectors, one for future vectors) is recommended. Python \(\geq\) 3.8.</p>
 
     <h3 class="fade-in">Install</h3>
     <pre class="fade-in"><code>pip install embedding-disruptiveness
@@ -724,7 +724,7 @@ di_2step = edm.calc_multistep_disruption_index(net)</code></pre>
     dim=100,              # embedding dimension
     window_size=5,        # context window
     device_in="0",        # GPU for past vectors
-    device_out="1",       # GPU for future vectors
+    device_out="0",       # GPU for future vectors (use "1" if 2 GPUs available)
     q_value=1,            # node2vec parameter
     epochs=1,
     batch_size=1024,
