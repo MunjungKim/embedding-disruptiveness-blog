@@ -505,16 +505,21 @@
 
     <h3 class="fade-in">Mathematical connection to the disruption index</h3>
 
-    <p class="fade-in">We show formally that when the number of walks \(R\) and walk length \(T\) are large enough, the skip-gram objective simplifies to:</p>
+    <p class="fade-in">The key insight is what the future vector actually converges to. We show that after training, the future vector \(\mathbf{f}_i\) aligns with the <strong>mean direction of its descendants' past vectors</strong>:</p>
 
-    <p class="fade-in">$$J \approx \sum_{u} \sum_{v \in A(u)} \kappa_v^{\text{in}} \log \Pr(v \mid u)$$</p>
+    <p class="fade-in">$$\mathbf{f}_i \;\to\; \mathbf{u}_i \simeq \frac{1}{|D_c(i)|} \sum_{k \in D_c(i)} \mathbf{p}_k$$</p>
 
-    <p class="fade-in">where \(A(u)\) is the set of antecedent papers cited by \(u\), and \(\kappa_v^{\text{in}}\) is the in-degree (citation count) of paper \(v\). This means the model is implicitly learning from the same citation structure that the disruption index uses &mdash; but through the lens of the <em>entire</em> network, not just immediate neighbors.</p>
+    <p class="fade-in">In other words, a paper's future vector is a summary of <em>what its descendants look back at</em>. This is where the connection to disruption becomes geometric:</p>
 
-    <p class="fade-in">The cosine distance between future and past vectors then captures whether a paper's descendants rely on the same antecedents (consolidating) or diverge from them (disruptive) &mdash; the foundational concept behind the disruption index, but implemented with far greater robustness and resolution.</p>
+    <ul class="fade-in" style="margin-top: 0.5rem;">
+      <li><strong>Consolidating paper:</strong> Descendants keep citing the same antecedents as the focal paper. Their past vectors resemble the focal paper's past vector, so \(\mathbf{u}_i \approx \mathbf{p}_i\) &mdash; the future and past vectors align.</li>
+      <li><strong>Disruptive paper:</strong> Descendants break from the focal paper's antecedents and head in a new direction. Their past vectors diverge from the focal paper's past vector, so \(\mathbf{u}_i \neq \mathbf{p}_i\) &mdash; the future and past vectors point apart.</li>
+    </ul>
 
-    <p class="fade-in">The EDM formula is simply:</p>
+    <p class="fade-in">The EDM formula captures exactly this:</p>
     <p class="fade-in">$$\text{EDM} = 1 - \cos(\mathbf{f}, \mathbf{p})$$</p>
+
+    <p class="fade-in">When \(\mathbf{f} \approx \mathbf{p}\), cosine similarity is high and EDM is near 0 (consolidating). When \(\mathbf{f}\) and \(\mathbf{p}\) diverge, EDM rises toward 2 (disruptive). Unlike the original disruption index which counts citations among immediate neighbors, EDM encodes this through the <em>entire</em> network's geometry.</p>
 </div>
 
 <!-- ============ PART 3: RESULTS ============ -->
